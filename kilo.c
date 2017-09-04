@@ -16,7 +16,7 @@ void enableRawMode() {
 	atexit(disableRawMode);
 
 	struct termios raw = orig_termios;
-	raw.c_iflag &= ~(IXON); //Disables ctrl-s and ctrl-q
+	raw.c_iflag &= ~(ICRNL | IXON); //Disables ctrl-s and ctrl-q, fixes ctrl-m
 	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG); //Disables echo, concanical mode, ctrl-v, ctrl-c, ctrl-z signals
 
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
